@@ -1,5 +1,7 @@
 from django.db import models
 
+
+
 # Create your models here.
 class slider(models.Model):
     DISCOUNT_DEAL = (
@@ -48,3 +50,34 @@ class Sub_Category(models.Model):
 
     def __str__(self):
         return self.category.main_category.name + " -- " + self.category.name + " --" +self.name
+
+
+class Section(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+    
+class Product(models.Model):
+    featured_image = models.ImageField('meida/banner_img')
+    product_name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    Discount = models.IntegerField()
+    Product_Information = models.TextField()
+    model_Name = models.CharField(max_length=100)
+    Categories = models.ForeignKey(Category,on_delete=models.CASCADE)
+   
+
+    def __str__(self):
+        return self.product_name
+
+class Product_Image(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    Image = models.ImageField(upload_to='meida/banner_img')
+
+class Additional_Information(models.Model):
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    specifications = models.CharField(max_length=100)
+    detail = models.CharField(max_length=100)
+
+    

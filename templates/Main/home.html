@@ -1,63 +1,31 @@
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
+{% load static %}
     <!-- slider-area-start -->
     <div class="slider-area">
         <div class="swiper-container slider__active">
             <div class="slider-wrapper swiper-wrapper">
-                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{% static 'assets/img/slider/slider 1.png' %}">
+                {% for i in sliders %}
+                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="/{{i.Image}}">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-5">
                                 <div class="slider-content">
                                     <div class="slider-top-btn" data-animation="fadeInLeft" data-delay="1.5s">
-                                        <a href="product-details.html" class="st-btn b-radius">HOT DEALS</a>
+                                        <a href="product-details.html" class="st-btn b-radius">{{i.Discount_Deal}}</a>
                                     </div>
-                                    <h2 data-animation="fadeInLeft" data-delay="1.7s" class="pt-15 slider-title pb-5" style="color:orangered;">SALE 30% OFF <br> SMART TV'S</h2>
-                                    <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.9s" style="color: black;">Discount 30% On Products & Free Shipping</p>
+                                    <h2 data-animation="fadeInLeft" data-delay="1.7s" class="pt-15 slider-title pb-5" style="color:orangered;">SALE {{i.SALE}}% OFF <br> {{i.Brand_Name}}</h2>
+                                    <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.9s" style="color: black;">Discount {{i.Discount}}% On Products & Free Shipping</p>
                                     <div class="slider-bottom-btn mt-75">
-                                        <a data-animation="fadeInUp" data-delay="1.15s" href="shop.html" class="st-btn-b b-radius">Discover now</a>
+                                        <a data-animation="fadeInUp" data-delay="1.15s" href="{{i.Link}}" class="st-btn-b b-radius">Discover now</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div><!-- /single-slider -->
-                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{% static 'assets/img/slider/slider 2.png' %}">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-5">
-                                <div class="slider-content">
-                                    <div class="slider-top-btn" data-animation="fadeInLeft" data-delay="1s">
-                                        <a href="product-details.html" class="st-btn b-radius">New Arrivals</a>
-                                    </div>
-                                    <h2 data-animation="fadeInLeft" data-delay="1.5s" class="pt-15 slider-title pb-5" style="color: orangered">SALE 20% OFF<br> WASHING MACHINES </h2>
-                                    <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.7s" style="color: black;">Discount 30% On Products & Free Shipping</p>
-                                    <div class="slider-bottom-btn mt-75">
-                                        <a data-animation="fadeInUp" data-delay="1.9s" href="shop.html" class="st-btn-b b-radius">Discover now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- /single-slider -->
-                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{% static 'assets/img/slider/slider 3.png' %}">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-5">
-                                <div class="slider-content">
-                                    <div class="slider-top-btn" data-animation="fadeInLeft" data-delay="1s">
-                                        <a href="product-details.html" class="st-btn b-radius">New DEALS</a>
-                                    </div>
-                                    <h2 data-animation="fadeInLeft" data-delay="1.5s" class="pt-15 slider-title pb-5" style="color: orangered">SALE 30% OFF <br> SMART FRIDGES</h2>
-                                    <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.8s" style="color:black">Discount 30% On Products & Free Shipping</p>
-                                    <div class="slider-bottom-btn mt-75">
-                                        <a data-animation="fadeInUp" data-delay="1.10s" href="shop.html" class="st-btn-b b-radius">Discover now</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                {% endfor %}
+               
                 </div><!-- /single-slider -->
                 <div class="main-slider-paginations"></div>
                 <div class="swiper-button-prev"></div>
@@ -122,21 +90,20 @@
 <section class="banner__area pt-20 pb-10">
     <div class="container">
         <div class="row">
-            {% for 1 in banners %}
+            {% for i in banners %}
             <div class="col-xl-4 col-lg-4 col-md-6">
                 <div class="banner__item p-relative w-img mb-30">
                     <div class="banner__img">
                         <a href="product-details.html"><img src="/{{i.image}}" alt=""></a>
                     </div>
                     <div class="banner__content">
-                        <h6><a href="product-details.html">{{i.Quote}} <br> New Touch Control</a></h6>
-                        <p>Discount  {{i.Discount}} On Products</p>
+                        <h6><a href="product-details.html" style="color: black; font-size: xx-large;" > {{i.Discount_Deal}}<br> {{i.Quote}}</a></h6>
+                        <p>Discount  {{i.Discount}}% On Products</p>
                     </div>
                 </div>
             </div>
             {% endfor %}
             
-        </div>
     </div>
 </section>
 <!-- banner__area-end -->

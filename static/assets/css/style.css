@@ -2196,7 +2196,6 @@ input {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: right;
-  background-image: url("../img/bg/img-4.png");
   background-size: cover;
   background-position: right bottom;
   background-repeat: no-repeat;
@@ -2256,7 +2255,7 @@ input {
   color: #fcbe00;
 }
 .cat__menu ul li .mega-menu-2 {
-  background-image: url("../img/bg/img-5.png");
+  background-image: none;
 }
 @media (min-width: 1400px) {
   .cat__menu-2 {
