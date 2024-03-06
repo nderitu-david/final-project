@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.utils.text import slugify
+from django.db.models.signals import pre_save
 
 
 # Create your models here.
@@ -51,7 +52,6 @@ class Sub_Category(models.Model):
     def __str__(self):
         return self.category.main_category.name + " -- " + self.category.name + " --" +self.name
 
-
 class Section(models.Model):
     name = models.CharField(max_length=100)
 
@@ -63,13 +63,39 @@ class Product(models.Model):
     product_name = models.CharField(max_length=100)
     price = models.IntegerField()
     Discount = models.IntegerField()
-    Product_Information = models.TextField()
+    Product_information = models.TextField()
     model_Name = models.CharField(max_length=100)
     Categories = models.ForeignKey(Category,on_delete=models.CASCADE)
-   
+    section = models.ForeignKey(Section,on_delete=models.DO_NOTHING)
+    slug = models.SlugField(default='', max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.product_name
+    
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse("product_detail", kwargs={'slug': self.slug})
+    
+    class Meta:
+        db_table = "system_Product"
+
+
+def create_slug(instance, new_slug=None):
+    slug = slugify(instance.product_name)
+    if new_slug is not None:
+        slug = new_slug
+    qs = Product.objects.filter(slug=slug).order_by('-id')
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s" % (slug, qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+    return slug
+
+def pre_save_post_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+
+pre_save.connect(pre_save_post_receiver, Product)
 
 class Product_Image(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)

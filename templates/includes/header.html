@@ -1,4 +1,5 @@
 {% load static %}
+<!--header-start-->
 <header class="header d-blue-bg">
     <div class="header-top">
         <div class="container">
@@ -6,28 +7,19 @@
                 <div class="row align-items-center">
                     <div class="col-xl-6 col-lg-7">
                         <div class="header-inner-start">
-                            <div class="header__currency border-right">
-                                <div class="s-name">
-                                    <span>Language: </span>
-                                </div>
-                                <select>
-                                    <option>English</option>
-                                </select>
-                            </div>
-                            <div class="header__lang border-right">
-                                <div class="s-name">
-                                    <span>Currency: </span>
-                                </div>
-                                <select>
-                                    <option> USD</option>
-                                    <option>EUR</option>
-                                    <option>INR</option>
-                                    <option>BDT</option>
-                                    <option>BGD</option>
-                                </select>
-                            </div>
+                            
                             <div class="support d-none d-sm-block">
-                                <p>Need Help? <a href="tel:+001123456789">+001 123 456 789</a></p>
+                                {% if user.is_authenticated %}
+                                <p>Welcome
+                                    {% if user.first_name == "" %}
+                                        {{user.email}}
+                                    {% else %}
+                                        {{user.first_name}} {{user.last_name}}
+                                    {% endif %}
+                                </p>
+                                {% else %}
+                                <p>Please Login First</p>
+                                  {% endif %}
                             </div>
                         </div>
                     </div>
@@ -86,14 +78,25 @@
                     </div>
                     <div class="col-xl-4 col-lg-5 col-md-8 col-sm-8">
                         <div class="header-action">
+                            {% if user.is_authenticated %}
                             <div class="block-userlink">
-                                <a class="icon-link" href="my-account.html">
+                                <a class="icon-link" href="{% url 'my_account' %}">
+                                <i class="flaticon-user"></i>
+                                <span class="text">
+                                <span class="sub"> </span>
+                                 Account </span>
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="block-userlink">
+                                <a class="icon-link" href="{% url 'my_account' %}">
                                 <i class="flaticon-user"></i>
                                 <span class="text">
                                 <span class="sub">Login </span>
                                 My Account </span>
                                 </a>
                             </div>
+                            {% endif %}
                             <div class="block-wishlist action">
                                 <a class="icon-link" href="wishlist.html">
                                 <i class="flaticon-heart"></i>
@@ -204,160 +207,31 @@
                         <nav>
                             <ul>
                                 <li>
-                                    <a href="index.html" class="active">Home <i class="far fa-angle-down"></i></a>
-                                    <ul class="megamenu-1">
-                                        <li><a href="index.html">Home Pages</a>
-                                            <ul class="mega-item">
-                                                <li><a href="index.html" class="active">Home One</a></li>
-                                                <li><a href="index-2.html">Home Two</a></li>
-                                                <li><a href="index-3.html">Home Three</a></li>
-                                                <li><a href="product-details.html">Shop 3 Column</a></li>
-                                                <li><a href="product-details.html">Shop 4 Column</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="shop.html">Product Pages</a>
-                                            <ul class="mega-item">
-                                                <li><a href="product-details.html">Product Details</a></li>
-                                                <li><a href="product-details.html">Product V2</a></li>
-                                                <li><a href="product-details.html">Product V3</a></li>
-                                                <li><a href="product-details.html">Varriable Product</a></li>
-                                                <li><a href="product-details.html">External Product</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="shop.html">Other Pages</a>
-                                            <ul class="mega-item">
-                                                <li><a href="product-details.html">wishlist</a></li>
-                                                <li><a href="product-details.html">Shopping Cart</a></li>
-                                                <li><a href="product-details.html">Checkout</a></li>
-                                                <li><a href="product-details.html">Login</a></li>
-                                                <li><a href="product-details.html">Register</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="shop.html">Phone &amp; Tablets</a>
-                                            <ul class="mega-item">
-                                                <li><a href="product-details.html">Catagory 1</a></li>
-                                                <li><a href="product-details.html">Catagory 2</a></li>
-                                                <li><a href="product-details.html">Catagory 3</a></li>
-                                                <li><a href="product-details.html">Catagory 4</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="shop.html">Phone &amp; Tablets</a>
-                                            <ul class="mega-item">
-                                                <li><a href="product-details.html">Catagory 1</a></li>
-                                                <li><a href="product-details.html">Catagory 2</a></li>
-                                                <li><a href="product-details.html">Catagory 3</a></li>
-                                                <li><a href="product-details.html">Catagory 4</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <a href="{% url 'home' %}" class="active">Home </a>
+                                    
                                 </li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li class="has-mega"><a href="shop.html">Shop <i class="far fa-angle-down"></i></a>
-                                    <div class="mega-menu">
-                                        <div class="container container-mega">
-                                            <ul>
-                                                <li>
-                                                    <ul>
-                                                    <li class="title"><a href="shop.html">SHOP LAYOUT</a></li>
-                                                    <li><a href="shop.html">Pagination</a></li>
-                                                    <li><a href="shop.html">Ajax Load More</a></li>
-                                                    <li><a href="shop.html">Infinite Scroll</a></li>
-                                                    <li><a href="shop.html">Sidebar Right</a></li>
-                                                    <li><a href="shop.html">Sidebar Left</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                    <li class="title"><a href="shop.html">SHOP PAGES</a></li>
-                                                    <li><a href="shop.html">List View</a></li>
-                                                    <li><a href="shop.html">Small Products</a></li>
-                                                    <li><a href="shop.html">Large Products</a></li>
-                                                    <li><a href="shop.html">Shop — 3 Items</a></li>
-                                                    <li><a href="shop.html">Shop — 4 Items</a></li>
-                                                    <li><a href="shop.html">Shop — 5 Items</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                    <li class="title"><a href="shop.html">PRODUCT LAYOUT</a></li>
-                                                    <li><a href="shop.html">Description Sticky</a></li>
-                                                    <li><a href="shop.html">Product Carousel</a></li>
-                                                    <li><a href="shop.html">Gallery Modern</a></li>
-                                                    <li><a href="shop.html">Thumbnail Left</a></li>
-                                                    <li><a href="shop.html">Thumbnail Right</a></li>
-                                                    <li><a href="shop.html">Thumbnail Botttom</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                    <li class="title"><a href="shop.html">Basketball</a></li>
-                                                    <li><a href="shop.html">East Hampton Fleece</a></li>
-                                                    <li><a href="shop.html">Faxon Canvas Low</a></li>
-                                                    <li><a href="shop.html">Habitasse Dictumst</a></li>
-                                                    <li><a href="shop.html">Kaoreet Lobortis</a></li>
-                                                    <li><a href="shop.html">NikeCourt Zoom</a></li>
-                                                    <li><a href="shop.html">NikeCourts Air Zoom</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <ul>
-                                                    <li class="title"><a href="shop.html">Basketball</a></li>
-                                                    <li><a href="shop.html">East Hampton Fleece</a></li>
-                                                    <li><a href="shop.html">Faxon Canvas Low</a></li>
-                                                    <li><a href="shop.html">Habitasse Dictumst</a></li>
-                                                    <li><a href="shop.html">Kaoreet Lobortis</a></li>
-                                                    <li><a href="shop.html">NikeCourt Zoom</a></li>
-                                                    <li><a href="shop.html">NikeCourts Air Zoom</a></li>
-                                                    </ul>
-                                                </li>
-                                                <li class="mega-image hover-effect" style="background-image: url(assets/img/bg/menu-item.jpg);"> 
-                                                    <ul>
-                                                      <li><a href="shop.html">
-                                                        <h4>Top Cameras <br> Bestseller Products</h4>
-                                                        <h5>4K</h5>
-                                                        <h6>Sale Up To <span>60% Off</span></h6>
-                                                      </a></li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="offer mt-40">
-                                            <p><b>30% OFF</b> the shipping of your first order with the code: <b>DUKA-SALE30</b></p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="blog.html">Blog <i class="far fa-angle-down"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="blog.html">Blog</a></li>
-                                        <li><a href="blog-details.html">Blog Details</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="about.html">Pages <i class="far fa-angle-down"></i></a>
-                                    <ul class="submenu">
-                                        <li><a href="my-account.html">My Account</a></li>
-                                        <li><a href="product-details.html">Product Details</a></li>
-                                        <li><a href="faq.html">FAQs pages</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                        <li><a href="checkout.html">Checkout</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
-                                        <li><a href="404.html">404 Error</a></li>
-                                    </ul>
-                                </li>
+                                <li><a href="{% url 'about' %}">About Us</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                                <li><a href="{% url 'product' %}">Product</a></li>
+                               <li><a href="">My Orders <i class="far fa-angle-down"></i></a>
+                            <ul class="submenu">
+                                <li><a href="">Orders</a></li>
+                                <li><a href="">Order Tracking</a></li>
                             </ul>
-                        </nav>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-9">
-                    <div class="shopeing-text text-sm-end">
-                        <p>Spend $120 more and get free shipping!</p>
-                    </div>
-                </div>
+                        </li>
+                       
+                    </ul>
+                </nav>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-9">
+            <div class="shopeing-text text-sm-end">
             </div>
         </div>
     </div>
+</div>
+</div>
 </header>
 
 <!-- offcanvas area start -->
