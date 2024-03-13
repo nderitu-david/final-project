@@ -32,15 +32,28 @@ urlpatterns = [
     path('about',views.ABOUT,name='about'),
     path('contact',views.CONTACT,name='contact'),
     path('product',views.PRODUCT,name='product'),
+    path('product/filter-data',views.filter_data,name='filter-data'),
     path('product/<slug:slug>',views.PRODUCT_DETAILS,name='product_detail'),
     
+
     # account  urls
     path('account/my-account',views.MY_ACCOUNT,name='my_account'),
     path('account/register',views.REGISTER,name='register'),
     path('account/login',views.LOGIN,name='login'),
     path("accounts/", include("django.contrib.auth.urls")),
 
-    
 
+    
+    
+    path('cart/add/<int:id>/', views.cart_add, name='cart_add'),
+    path('cart/item_clear/<int:id>/', views.item_clear, name='item_clear'),
+    path('cart/item_increment/<int:id>/',
+         views.item_increment, name='item_increment'),
+    path('cart/item_decrement/<int:id>/',
+         views.item_decrement, name='item_decrement'),
+    path('cart/cart_clear/', views.cart_clear, name='cart_clear'),
+    path('cart/cart-detail/',views.cart_detail,name='cart_detail'),
+    
+    path('checkout',views.Checkout,name='checkout'),
     
 ] +static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

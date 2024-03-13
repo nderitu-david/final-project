@@ -1,8 +1,13 @@
+from django.http import JsonResponse
 from django.shortcuts import redirect,render
 from system.models import slider,banner_area,Main_Category,Product,Category
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from django.db.models import Max, Min, Sum
+from cart.cart import Cart
 
 def BASE(request):
     return render(request, 'base.html')
@@ -111,6 +116,80 @@ def PRODUCT(request):
     return render(request,'product/product.html',context)
 
 
+def filter_data(request):
+    categories = request.GET.getlist('category[]')
+    brands = request.GET.getlist('brand[]')
+
+    allProducts = Product.objects.all().order_by('-id').distinct()
+    if len(categories) > 0:
+        allProducts = allProducts.filter(Categories__id__in=categories).distinct()
+
+    if len(brands) > 0:
+        allProducts = allProducts.filter(Brand__id__in=brands).distinct()
+
+
+    t = render_to_string('ajax/ajaxproduct.html',{'data':allProducts})
+
+    return JsonResponse({'data': t})
+    
+
+
+
+
+@login_required(login_url="/account/my-account")
+def cart_add(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/account/my-account")
+def item_clear(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.remove(product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/account/my-account")
+def item_increment(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.add(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/account/my-account")
+def item_decrement(request, id):
+    cart = Cart(request)
+    product = Product.objects.get(id=id)
+    cart.decrement(product=product)
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/account/my-account")
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    return redirect("cart_detail")
+
+
+@login_required(login_url="/account/my-account")
+def cart_detail(request):
+    cart = request.session.get('cart')
+    packing_cost = sum(i['packing_cost'] for i in cart.values() if i)
+    tax = sum(i['tax'] for i in cart.values() if i)
+    
+    context = {
+        'packing_cost':packing_cost,
+        'tax':tax,
+    }
+    return render(request, 'cart/cart.html')
+
+
+def Checkout(request):
+    return render(request,'checkout/checkout.html')
 
 
 

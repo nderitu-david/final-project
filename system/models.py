@@ -63,6 +63,8 @@ class Product(models.Model):
     product_name = models.CharField(max_length=100)
     price = models.IntegerField()
     Discount = models.IntegerField()
+    tax = models.IntegerField(null=True)
+    packing_cost = models.IntegerField(null=True)
     Product_information = models.TextField()
     model_Name = models.CharField(max_length=100)
     Categories = models.ForeignKey(Category,on_delete=models.CASCADE)
@@ -105,5 +107,7 @@ class Additional_Information(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     specifications = models.CharField(max_length=100)
     detail = models.CharField(max_length=100)
+
+
 
     
